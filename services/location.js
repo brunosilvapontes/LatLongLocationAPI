@@ -23,3 +23,6 @@ exports.updateOrCreate = (_fileName, _locationData) => {
    ).lean().exec()
 }
 
+exports.getNames = () => {
+	return LocationModel().find({}).select('name').lean().exec()
+}

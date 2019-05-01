@@ -39,6 +39,23 @@ exports.uploadJson = async (req, res) => {
 	}
 }
 
+exports.getLocationNames = async (req, res) => {
+	try {
+		const locations = await locationService.getNames()
+
+		if (!locations || typeof(locations) !== 'object' || locations.length < 1) {
+			return res.status(200).json([]).end()
+		}
+
+		const locationNames = locations.map(location => {return location.name})
+
+		return res.status(200).json(locationNames).end()
+	} catch (err) {
+		const errMsg = (err && err.message) ? err.message : err
+		return res.status(500).json({status: 500, message: errMsg}).end()
+	}
+}
+
 standardizeLocationName = (_name) => {
 	if (!_name || _name.length < 1) return null
 	let name = _name.toString().trim().toLowerCase()

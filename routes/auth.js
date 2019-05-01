@@ -28,3 +28,8 @@ exports.validateBodyType = (req, res, next) => {
 
 	return next()
 }
+
+exports.validateApiToken = (req, res, next) => {
+	if (req && req.headers && req.headers['apitoken'] === 'internal') return next()
+	return res.status(401).json({status: 401, message: 'This route needs access token.'}).end()	
+}
