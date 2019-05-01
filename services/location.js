@@ -26,3 +26,7 @@ exports.updateOrCreate = (_fileName, _locationData) => {
 exports.getNames = () => {
 	return LocationModel().find({}).select('name').lean().exec()
 }
+
+exports.getLocation = (_name) => {
+	return LocationModel().findOne({name: _name}).select('name latitude longitude additionalData').lean().exec()
+}

@@ -6,4 +6,6 @@ router.post('/:name', auth.validateBodyType, controller.uploadJson)
 
 router.get('/names', auth.validateApiToken, controller.getLocationNames)
 
+router.get('/:name', auth.validateApiToken, controller.getLocationDetails)
+
 module.exports = router
