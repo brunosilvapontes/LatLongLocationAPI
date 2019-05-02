@@ -3,7 +3,8 @@
   "version": "1.0.0",
   "private": true,
   "scripts": {
-    "start": "node app.js"
+    "start": "node app.js",
+    "test": "mocha --timeout 10000"
   },
   "author": "Bruno Silva Pontes",
   "dependencies": {
