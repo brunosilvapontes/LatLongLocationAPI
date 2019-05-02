@@ -1,10 +1,11 @@
-var express = require('express');
-var cookieParser = require('cookie-parser');
-var logger = require('morgan');
+const express = require('express');
+const cookieParser = require('cookie-parser');
+const logger = require('morgan');
 
-var locationRouter = require('./routes/location');
+const locationRouter = require('./routes/location');
+const config = require('./config')
 
-var app = express();
+const app = express();
 const mongoose = require('mongoose')
 
 app.use(logger('dev'));
@@ -15,7 +16,7 @@ app.use(cookieParser());
 app.use('/location', locationRouter);
 
 console.log('Connecting to the database...');
-mongoose.connect('mongodb+srv://admin:tempbspTEMPBSP@cluster0-y86bj.mongodb.net/bsp?retryWrites=true', {useNewUrlParser: true})
+mongoose.connect(config.mongoDb.connectionString, {useNewUrlParser: true})
     .then(mongoConnection => {
         console.log('Connected :)');
         app.listen(3000, () => {

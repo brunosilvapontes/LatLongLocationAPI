@@ -1,3 +1,5 @@
+const config = require('../config')
+
 exports.validateBodyType = (req, res, next) => {
 	if (!req) {
 		const error = {
@@ -30,6 +32,6 @@ exports.validateBodyType = (req, res, next) => {
 }
 
 exports.validateApiToken = (req, res, next) => {
-	if (req && req.headers && req.headers['apitoken'] === 'internal') return next()
+	if (req && req.headers && req.headers['apitoken'] === config.apitoken) return next()
 	return res.status(401).json({status: 401, message: 'This route needs access token.'}).end()	
 }

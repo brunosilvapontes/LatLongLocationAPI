@@ -27,6 +27,17 @@ exports.getNames = () => {
 	return LocationModel().find({}).select('name').lean().exec()
 }
 
-exports.getLocation = (_name) => {
-	return LocationModel().findOne({name: _name}).select('name latitude longitude additionalData').lean().exec()
+exports.getLocation = (_name, _fields) => {
+	let fields = _fields ? _fields : 'name latitude longitude additionalData'
+	return LocationModel().findOne({name: _name}).select(fields).lean().exec()
+		.then(_location => {
+			if (!_location) return null
+			
+			let location = _location
+
+			// Remove mongo id if it's not requested
+			if (fields.indexOf('_id') < 0 && location._id) delete location._id
+
+			return location
+		})
 }

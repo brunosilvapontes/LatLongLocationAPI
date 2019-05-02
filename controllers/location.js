@@ -58,11 +58,16 @@ exports.getLocationNames = async (req, res) => {
 
 exports.getLocationDetails = async (req, res) => {
 	try {
-		let location = await locationService.getLocation(standardizeLocationName(req.params.name))
+		const name = (req && req.params && req.params.name) ? req.params.name : null
+		if (!name || name.length < 1) {
+			return res.status(400).json({status: 400, message: 'Name is required.'}).end()	
+		}
+
+		const wantedFields = 'name latitude longitude additionalData'
+		let location = await locationService.getLocation(standardizeLocationName(name), wantedFields)
 
 		if (!location) return res.status(404).json({status: 404, message: 'Location name not found.'}).end()
 
-		delete location._id
 		location.distanceToOfficeInKm = getDistanceToOfficeInKm(location.latitude, location.longitude)
 
 		return res.status(200).json(location).end()
